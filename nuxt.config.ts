@@ -5,6 +5,7 @@ export default defineNuxtConfig({
 
   alias: {
     "@ui": '~/shared/ui',
+    "@db": '~/shared/lib/db',
   },
   srcDir: 'src/',
   components: [
@@ -16,13 +17,7 @@ export default defineNuxtConfig({
 
   modules: ['@nuxtjs/tailwindcss', 'shadcn-nuxt'],
   shadcn: {
-    /**
-     * Prefix for all the imported component
-     */
     prefix: '',
-    /**
-     * Directory that the component lives in.
-     */
     componentDir: '~/shared/ui'
-  }
+  },
 })

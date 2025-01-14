@@ -1,6 +1,8 @@
 <template>
-    <BaseButton size="lg">
-      dadds
-    </BaseButton>
+  <div>
+    This is home
+  </div>
 </template>
+<script setup lang="ts">
+</script>
   
