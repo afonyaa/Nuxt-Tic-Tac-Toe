@@ -8,26 +8,28 @@ datasource db {
 }
 
 model Game {
-  id    String     @id @default(cuid())
-  status  GameStatus
-  players User[] @relation("games")
-  winner User @relation(fields: [winnerId], references: [id])
-  winnerId String
-  field Json?
+  id        String     @id @default(uuid())
+  createdAt DateTime   @default(now())
+  status    GameStatus @default(Pending)
+  players   User[]     @relation("PlayerGames")
+  creator   User       @relation("CreatorGames", fields: [creatorId], references: [id])
+  creatorId String
+  winner    User?      @relation("PlayerGamesWon", fields: [winnerId], references: [id])
+  winnerId  String?
 }
 
 model User {
-  id    String     @id @default(cuid())
-  login String
-  rating Int
+  id           String @id @default(uuid())
+  login        String @unique
   passwordHash String
-  games Game[] @relation("games") 
-  winnerGames Game[]
+  games        Game[] @relation("PlayerGames")
+  createdGames Game[] @relation("CreatorGames")
+  gamesWon     Game[] @relation("PlayerGamesWon")
 }
 
 enum GameStatus {
-  GameIdle
-  GameInProgress
-  GameOver
-  GameOverDraw  
+  Finished
+  FinishedDraw
+  Pending
+  InProgress
 }
