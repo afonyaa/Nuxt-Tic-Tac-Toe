@@ -1,8 +1,7 @@
 <template>
   <div>
-    This is home
+    Home
   </div>
 </template>
 <script setup lang="ts">
 </script>
-  
