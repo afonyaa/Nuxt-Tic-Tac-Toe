@@ -13,7 +13,7 @@ async function main() {
             [null, null, null],
             [null, null, null],
             [null, null, null]
-          ] as Prisma.JsonArray
+          ]
         }
       }
     }

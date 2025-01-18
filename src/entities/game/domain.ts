@@ -1,4 +1,5 @@
 import { $Enums, type Game as GameRaw, type User as UserRaw } from "@prisma/client"
+import { z } from 'zod'
 
 export type Game = GameFinished | GameFinishedDraw | GamePending | GameInProgress
 
@@ -6,6 +7,7 @@ type BaseGameFields = {
     id: string
     createdAt: Date
     creatorId: string
+    field: GameField
 }
 
 export type GameFinished = BaseGameFields & {
@@ -41,6 +43,13 @@ export enum GameStatus {
     InProgress = 'InProgress'
 }
 
+export type GameField = (GameSign | null)[][]
+
+export enum GameSign {
+    Cross = 'Cross',
+    Circle = 'Circle'
+}
+
 export const fromRawToGame = (rawGame: GameRaw & { players: UserRaw[] }): Game => {
     const status = rawGame.status
 
@@ -51,7 +60,8 @@ export const fromRawToGame = (rawGame: GameRaw & { players: UserRaw[] }): Game =
                 status: GameStatus.Pending,
                 createdAt: rawGame.createdAt,
                 creatorId: String(rawGame.creatorId),
-                players: rawGame.players
+                players: rawGame.players,
+                field: zGameSchema.parse(rawGame.field)
             } satisfies GamePending
         case $Enums.GameStatus.InProgress:
             return {
@@ -59,7 +69,8 @@ export const fromRawToGame = (rawGame: GameRaw & { players: UserRaw[] }): Game =
                 status: GameStatus.InProgress,
                 createdAt: rawGame.createdAt,
                 creatorId: String(rawGame.creatorId),
-                players: rawGame.players
+                players: rawGame.players,
+                field: zGameSchema.parse(rawGame.field)
             } satisfies GameInProgress
         case $Enums.GameStatus.Finished:
             return {
@@ -68,7 +79,8 @@ export const fromRawToGame = (rawGame: GameRaw & { players: UserRaw[] }): Game =
                 createdAt: rawGame.createdAt,
                 creatorId: String(rawGame.creatorId),
                 players: rawGame.players,
-                winnerId: rawGame.winnerId!
+                winnerId: rawGame.winnerId!,
+                field: zGameSchema.parse(rawGame.field)
             } satisfies GameFinished
         case $Enums.GameStatus.FinishedDraw:
             return {
@@ -76,7 +88,11 @@ export const fromRawToGame = (rawGame: GameRaw & { players: UserRaw[] }): Game =
                 status: GameStatus.FinishedDraw,
                 createdAt: rawGame.createdAt,
                 creatorId: String(rawGame.creatorId),
-                players: rawGame.players
+                players: rawGame.players,
+                field: zGameSchema.parse(rawGame.field)
             } satisfies GameFinishedDraw
     }
 }
+
+let zFieldCell = z.enum([GameSign.Cross, GameSign.Circle]).nullable()
+const zGameSchema = z.array(z.array(zFieldCell).length(3)).length(3)
