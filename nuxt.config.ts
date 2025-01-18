@@ -14,11 +14,11 @@ export default defineNuxtConfig({
       pathPrefix: false,
     },
   ],
-  serverHandlers: [
-    { 
-      // route: '/api/game', handler: '~/entities/game/repository/serviceHandler.ts' 
-    },
-  ],
+  // serverHandlers: [
+  // { 
+  // route: '/api/game', handler: '~/entities/game/repository/serviceHandler.ts' 
+  // },
+  // ],
   modules: ['@nuxtjs/tailwindcss', 'shadcn-nuxt'],
   shadcn: {
     prefix: '',

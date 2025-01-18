@@ -16,6 +16,7 @@ model Game {
   creatorId String
   winner    User?      @relation("PlayerGamesWon", fields: [winnerId], references: [id])
   winnerId  String?
+  field     Json?
 }
 
 model User {
