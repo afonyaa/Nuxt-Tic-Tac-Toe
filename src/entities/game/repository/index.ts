@@ -11,6 +11,12 @@ const gamesList = async (): Promise<Game[]> => {
                     id: true
                 }
             },
+            creator: {
+                select: {
+                    login: true,
+                    id: true
+                }
+            }
         }
     })
     return gamesRaw.map(fromRawToGame)

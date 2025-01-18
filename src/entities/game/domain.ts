@@ -6,14 +6,14 @@ export type Game = GameFinished | GameFinishedDraw | GamePending | GameInProgres
 type BaseGameFields = {
     id: string
     createdAt: Date
-    creatorId: string
+    creator: Player
     field: GameField
 }
 
 export type GameFinished = BaseGameFields & {
     status: GameStatus.Finished
     players: Player[]
-    winnerId: string
+    winner: Player
 }
 
 export type GameFinishedDraw = BaseGameFields & {
@@ -31,10 +31,7 @@ export type GamePending = BaseGameFields & {
     players: Player[]
 }
 
-export type Player = {
-    id: string
-    login: string
-}
+export type Player = Omit<UserRaw, 'passwordHash'>
 
 export enum GameStatus {
     Finished = 'Finished',
@@ -50,7 +47,13 @@ export enum GameSign {
     Circle = 'Circle'
 }
 
-export const fromRawToGame = (rawGame: GameRaw & { players: UserRaw[] }): Game => {
+export const fromRawToGame = (
+    rawGame: GameRaw &
+    {
+        players: UserRaw[],
+        winner: Omit<UserRaw, 'passwordHash'> | null
+        creator: Omit<UserRaw, 'passwordHash'>
+    }): Game => {
     const status = rawGame.status
 
     switch (status) {
@@ -59,7 +62,7 @@ export const fromRawToGame = (rawGame: GameRaw & { players: UserRaw[] }): Game =
                 id: rawGame.id,
                 status: GameStatus.Pending,
                 createdAt: rawGame.createdAt,
-                creatorId: String(rawGame.creatorId),
+                creator: rawGame.creator,
                 players: rawGame.players,
                 field: zGameSchema.parse(rawGame.field)
             } satisfies GamePending
@@ -68,7 +71,7 @@ export const fromRawToGame = (rawGame: GameRaw & { players: UserRaw[] }): Game =
                 id: rawGame.id,
                 status: GameStatus.InProgress,
                 createdAt: rawGame.createdAt,
-                creatorId: String(rawGame.creatorId),
+                creator: rawGame.creator,
                 players: rawGame.players,
                 field: zGameSchema.parse(rawGame.field)
             } satisfies GameInProgress
@@ -77,9 +80,9 @@ export const fromRawToGame = (rawGame: GameRaw & { players: UserRaw[] }): Game =
                 id: rawGame.id,
                 status: GameStatus.Finished,
                 createdAt: rawGame.createdAt,
-                creatorId: String(rawGame.creatorId),
+                creator: rawGame.creator,
                 players: rawGame.players,
-                winnerId: rawGame.winnerId!,
+                winner: zPlayerSchema.parse(rawGame.winner),
                 field: zGameSchema.parse(rawGame.field)
             } satisfies GameFinished
         case $Enums.GameStatus.FinishedDraw:
@@ -87,7 +90,7 @@ export const fromRawToGame = (rawGame: GameRaw & { players: UserRaw[] }): Game =
                 id: rawGame.id,
                 status: GameStatus.FinishedDraw,
                 createdAt: rawGame.createdAt,
-                creatorId: String(rawGame.creatorId),
+                creator: rawGame.creator,
                 players: rawGame.players,
                 field: zGameSchema.parse(rawGame.field)
             } satisfies GameFinishedDraw
@@ -96,3 +99,4 @@ export const fromRawToGame = (rawGame: GameRaw & { players: UserRaw[] }): Game =
 
 let zFieldCell = z.enum([GameSign.Cross, GameSign.Circle]).nullable()
 const zGameSchema = z.array(z.array(zFieldCell).length(3)).length(3)
+const zPlayerSchema = z.object({ id: z.string(), login: z.string() })
