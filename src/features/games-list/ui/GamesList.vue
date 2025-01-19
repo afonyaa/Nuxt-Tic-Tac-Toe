@@ -1,6 +1,6 @@
 <template>
-    <div>
-      
+    <div class="text-red-200">
+      Game
     </div>
 </template>
 <script setup lang="ts">
