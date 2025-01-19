@@ -1,4 +1,4 @@
-import { $Enums, type Game as GameRaw, type User as UserRaw } from "@prisma/client"
+import { $Enums, type Game as GameRaw, type User as UserRaw, GameStatus as GameStatusRaw } from "@prisma/client"
 import { z } from 'zod'
 
 export type Game = GameFinished | GameFinishedDraw | GamePending | GameInProgress
@@ -45,6 +45,14 @@ export type GameField = (GameSign | null)[][]
 export enum GameSign {
     Cross = 'Cross',
     Circle = 'Circle'
+}
+
+// Probably not needed
+export const gameStatusToRaw: Record<GameStatus, GameStatusRaw> = {
+    [GameStatus.Finished]: 'Finished',
+    [GameStatus.FinishedDraw]: 'FinishedDraw',
+    [GameStatus.InProgress]: 'InProgress',
+    [GameStatus.Pending]: 'Pending',
 }
 
 export const fromRawToGame = (
