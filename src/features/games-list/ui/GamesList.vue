@@ -18,7 +18,7 @@
 import { getGamesByStatus } from '~/entities/game';
 import { GameStatus } from '~/entities/game/domain';
 
-const { data: gamesList, error } = await useAsyncData (
+const { data: gamesList } = await useAsyncData (
     'idleGames', 
     () => getGamesByStatus(GameStatus.Pending),
 )
