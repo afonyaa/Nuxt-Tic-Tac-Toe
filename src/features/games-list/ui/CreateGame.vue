@@ -6,6 +6,7 @@
 <script setup lang="ts">
 async function handleCreateGameClick() {
   await fetch('/api/createGame')
+  await refreshNuxtData('gamesList');
 }
  
 </script>

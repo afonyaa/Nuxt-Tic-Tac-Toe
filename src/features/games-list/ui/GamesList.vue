@@ -9,7 +9,7 @@
         <CardDescription>Created at: {{ game.createdAt }}</CardDescription>
         <CardDescription>Creator: {{ game.creator.login }}</CardDescription>
         <CardDescription>Players: 
-          <div v-for="player of game.players" key="id">
+          <div v-for="player of game.players" :key="player.id">
             {{ player.login }}
           </div>
         </CardDescription>
@@ -24,16 +24,16 @@
   </div>
 </template>
 <script setup lang="ts">
-import { getGamesByStatus } from '~/entities/game';
-import { GameStatus } from '~/entities/game/domain';
+import { GameStatus } from '@prisma/client';
 import CreateGame from './CreateGame.vue';
 
-const { data: gamesList } = await useAsyncData (
-    'idleGames', 
-    () => getGamesByStatus(GameStatus.Pending),
+const { data: gamesList } = await useFetch (
+    '/api/gamesByStatus',
+    {
+      key: 'gamesList'
+    }  
+  
 )
-
-console.log(gamesList)
 
 </script>
   

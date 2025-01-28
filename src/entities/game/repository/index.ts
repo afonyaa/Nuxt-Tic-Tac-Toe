@@ -1,11 +1,12 @@
 import prisma from "~/shared/lib/db"
 import { fromRawToGame, GameStatus, gameStatusToRaw, type Game } from "../domain"
 
-const gamesList = async ({ status }: { status: GameStatus }): Promise<Game[]> => {
+const gamesList = async (): Promise<Game[]> => {
     const gamesRaw = await prisma.game.findMany({
         where: {
             status: {
-                equals: gameStatusToRaw[status]
+                // equals: gameStatusToRaw[status]
+                equals: 'Pending'
             }
         },
         include: {
