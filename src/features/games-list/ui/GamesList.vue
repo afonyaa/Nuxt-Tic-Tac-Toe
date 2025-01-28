@@ -13,10 +13,14 @@
       </CardContent>
     </Card>
   </div>
+  <div class="m-4">
+    <CreateGame />
+  </div>
 </template>
 <script setup lang="ts">
 import { getGamesByStatus } from '~/entities/game';
 import { GameStatus } from '~/entities/game/domain';
+import CreateGame from './CreateGame.vue';
 
 const { data: gamesList } = await useAsyncData (
     'idleGames', 

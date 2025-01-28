@@ -17,4 +17,7 @@ export default defineNuxtConfig({
     prefix: '',
     componentDir: '~/shared/ui'
   },
+  serverHandlers: [
+    { route: '/api/createGame', handler: '~/entities/game/services/createGame.ts' }
+  ]
 })

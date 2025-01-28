@@ -13,6 +13,11 @@ interface Props extends PrimitiveProps {
 const props = withDefaults(defineProps<Props>(), {
   as: 'button',
 })
+
+const emit = defineEmits<{
+  (e: 'click'): void
+}>()
+
 </script>
 
 <template>
@@ -20,6 +25,7 @@ const props = withDefaults(defineProps<Props>(), {
     :as="as"
     :as-child="asChild"
     :class="cn(buttonVariants({ variant, size }), props.class)"
+    @click="emit('click')"
   >
     <slot />
   </Primitive>

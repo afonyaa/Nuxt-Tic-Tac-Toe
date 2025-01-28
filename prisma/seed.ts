@@ -3,6 +3,13 @@ const prisma = new PrismaClient()
 async function main() {
   await prisma.user.create({
     data: {
+      id: '1',
+      passwordHash: '1234',
+      login: 'afa1',
+    }
+  })
+  await prisma.user.create({
+    data: {
       id: '2',
       passwordHash: '123',
       login: 'afa2',
@@ -21,8 +28,8 @@ async function main() {
   await prisma.user.create({
     data: {
       id: '3',
-      passwordHash: '1234',
-      login: 'afa1',
+      passwordHash: '12345',
+      login: 'afa3',
       games: {
         create: {
           creatorId: '3',

@@ -27,6 +27,41 @@ const gamesList = async ({ status }: { status: GameStatus }): Promise<Game[]> =>
     return gamesRaw.map(fromRawToGame)
 }
 
+const createGame = async (): Promise<Game> => {
+    const player = await prisma.user.findFirst()
+    const game = await prisma.game.create({
+        data: {
+            field: [
+                [null, null, null],
+                [null, null, null],
+                [null, null, null],
+            ],
+            creator: {
+                connect: {
+                    id: player?.id
+                }
+            },
+        },
+        include: {
+            players: true,
+            winner: {
+                select: {
+                    login: true,
+                    id: true
+                }
+            },
+            creator: {
+                select: {
+                    login: true,
+                    id: true
+                }
+            }
+        }
+    })
+    return fromRawToGame(game)
+}
+
 export default {
-    gamesList
+    gamesList,
+    createGame
 }
