@@ -41,6 +41,11 @@ const createGame = async (): Promise<Game> => {
                     id: player?.id
                 }
             },
+            players: {
+                connect: {
+                    id: player?.id
+                }
+            }
         },
         include: {
             players: true,

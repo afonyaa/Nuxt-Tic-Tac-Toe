@@ -7,6 +7,12 @@
       <CardHeader>
         <CardTitle> {{ game.id }}</CardTitle>
         <CardDescription>Created at: {{ game.createdAt }}</CardDescription>
+        <CardDescription>Creator: {{ game.creator.login }}</CardDescription>
+        <CardDescription>Players: 
+          <div v-for="player of game.players" key="id">
+            {{ player.login }}
+          </div>
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <BaseButton>Join</BaseButton>
@@ -27,6 +33,7 @@ const { data: gamesList } = await useAsyncData (
     () => getGamesByStatus(GameStatus.Pending),
 )
 
+console.log(gamesList)
 
 </script>
   
