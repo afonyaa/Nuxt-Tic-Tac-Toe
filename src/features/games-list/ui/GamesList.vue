@@ -24,12 +24,23 @@
   </div>
 </template>
 <script setup lang="ts">
-import { GameStatus } from '@prisma/client';
+import { GameStatus } from '~/entities/game/domain';
 import CreateGame from './CreateGame.vue';
 
+/**
+ * TODO
+ * Проблемы:
+ * Мы ходим по кругу, навороты с сервисами
+ * доменами нужны были для того чтобы абстрагировать (или нет) компонент 
+ * от вызова запроса напрямую (или это разные проблемы)
+ * Но вернулись к нему
+ *  */ 
+// TODO добавить монаду either
+// функиональная обработка ошибок
 const { data: gamesList } = await useFetch (
-    '/api/gamesByStatus',
+    `/api/gamesByStatus/${GameStatus.Pending}`,
     {
+      method: 'GET',
       key: 'gamesList'
     }  
   

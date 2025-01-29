@@ -1,5 +1,7 @@
+import type { GameStatus } from '../domain'
 import gameRepository from '../repository'
 
 export default defineEventHandler(async (event) => {
-    return await gameRepository.gamesList()
+    const status = getRouterParam(event, 'status')
+    return await gameRepository.gamesList(status as GameStatus)
 })
