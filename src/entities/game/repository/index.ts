@@ -27,8 +27,21 @@ const gamesList = async (status: GameStatus): Promise<Game[]> => {
     return gamesRaw.map(fromRawToGame)
 }
 
-const createGame = async (): Promise<Game> => {
-    const player = await prisma.user.findFirst()
+const createGame = async (playerId: string): Promise<Game | { error: string }> => {
+    const player = await prisma.user.findFirst({
+        where: {
+            id: playerId
+        }
+    })
+
+    const games = await gamesList(GameStatus.Pending)
+    if (games.find(game => game.creator.id === player?.id)) {
+        // TODO throw или просто объект
+        return {
+            error: 'Cannot create new game, you already have'
+        }
+    }
+
     const game = await prisma.game.create({
         data: {
             field: [
@@ -38,12 +51,12 @@ const createGame = async (): Promise<Game> => {
             ],
             creator: {
                 connect: {
-                    id: player?.id
+                    id: playerId
                 }
             },
             players: {
                 connect: {
-                    id: player?.id
+                    id: playerId
                 }
             }
         },
