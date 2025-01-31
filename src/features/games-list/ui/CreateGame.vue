@@ -7,7 +7,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { Game } from 'entities/game/domain';
+import { type Game } from 'entities/game/domain';
 import { ref } from 'vue';
 
 const error = ref('')

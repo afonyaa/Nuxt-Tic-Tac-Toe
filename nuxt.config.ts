@@ -6,6 +6,9 @@ export default defineNuxtConfig({
     "@db": '~/shared/lib/db',
   },
   srcDir: 'src/',
+  dir: {
+    pages: 'app'
+  },
   components: [
     {
       path: '~/shared/ui',

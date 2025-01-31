@@ -15,7 +15,7 @@
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <BaseButton>Join</BaseButton>
+        <BaseButton @click="goToGame(game.id)">Join</BaseButton>
       </CardContent>
     </Card>
   </div>
@@ -43,8 +43,13 @@ const { data: gamesList } = await useFetch (
       method: 'GET',
       key: 'gamesList'
     }  
-  
 )
+
+const goToGame = (gameId: string) => {
+  navigateTo({
+    path: `/game/${gameId}`,
+  })
+}
 
 </script>
   
