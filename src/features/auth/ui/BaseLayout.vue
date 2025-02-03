@@ -1,5 +1,5 @@
 <template>
-    <div class="v-full h-screen flex items-center justify-center">
+    <div class="w-full h-full flex items-center justify-center">
         <div class="w-96">
             <div class="text-lg text-center">{{ props.title }}</div>
             <div class="mt-4">

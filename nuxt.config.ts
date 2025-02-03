@@ -7,7 +7,8 @@ export default defineNuxtConfig({
   },
   srcDir: 'src/',
   dir: {
-    pages: 'app'
+    pages: 'app/routes',
+    layouts: 'app/layouts'
   },
   components: [
     {
