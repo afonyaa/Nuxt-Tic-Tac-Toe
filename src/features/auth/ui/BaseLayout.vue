@@ -5,7 +5,7 @@
             <div class="mt-4">
                 <slot name="fields"/>
             </div>
-            <div class="mt-6 flex justify-end">
+            <div class="mt-6 flex items-center gap-4">
                 <slot name="actions"/>
             </div>
             <div class="mt-12">

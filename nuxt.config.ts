@@ -1,6 +1,9 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: false },
+  routeRules: {
+    '/auth/**': { ssr: false },
+  },
   alias: {
     "@ui": '~/shared/ui',
     "@db": '~/shared/lib/db',

@@ -1,14 +1,14 @@
 <template>
-    <BaseLayout title="Sign In">
+    <BaseLayout title="Sign Up">
         <template v-slot:fields>
             <div class="relative w-full max-w-sm items-center">
-                <Input id="login" type="text" placeholder="login" class="pl-10" />
+                <Input v-model="login" id="login" type="text" placeholder="login" class="pl-10" />
                 <span class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
                 <PersonIcon class="size-6 text-muted-foreground" />
                 </span>
             </div>
             <div class="mt-4 relative w-full max-w-sm items-center">
-                <Input id="password" type="password" placeholder="password" class="pl-10" />
+                <Input v-model="password" id="password" type="password" placeholder="password" class="pl-10" />
                 <span class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
                 <LockClosedIcon class="size-6 text-muted-foreground" />
                 </span>
@@ -18,6 +18,7 @@
             <BaseButton>
                 Sign up
             </BaseButton>
+            <NuxtLink to="sign-in">Or go to Sign in</NuxtLink>
         </template>    
         <template v-slot:error>
             <div v-if="false" class="text-red-500">
@@ -30,4 +31,9 @@
 import BaseLayout from './BaseLayout.vue'
 import { PersonIcon } from '@radix-icons/vue'
 import { LockClosedIcon } from '@radix-icons/vue'
+
+const password = ref<string>('')
+const login = ref<string>('')
+
+
 </script>
