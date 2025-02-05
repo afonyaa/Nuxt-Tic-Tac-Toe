@@ -31,10 +31,8 @@
 import BaseLayout from './BaseLayout.vue'
 import { PersonIcon } from '@radix-icons/vue'
 import { LockClosedIcon } from '@radix-icons/vue'
+import {useAuthFields} from '../model/useAuthFields'
 
-// TODO видео про useState
-//TODO composable
-const password = ref<string>('')
-const login = ref<string>('')
+const {login, password} = useAuthFields()
 
 </script>
