@@ -4,7 +4,7 @@
   </BaseButton>
   <div v-if="error" class="text-red-600">
       {{ error }}
-    </div>
+  </div>
 </template>
 <script setup lang="ts">
 import { type Game } from 'entities/game/domain';

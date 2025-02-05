@@ -32,6 +32,7 @@ import BaseLayout from './BaseLayout.vue'
 import { PersonIcon } from '@radix-icons/vue'
 import { LockClosedIcon } from '@radix-icons/vue'
 
+// TODO видео про useState
 //TODO composable
 const password = ref<string>('')
 const login = ref<string>('')

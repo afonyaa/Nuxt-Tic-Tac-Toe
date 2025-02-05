@@ -9,9 +9,9 @@
         <CardDescription>Created at: {{ game.createdAt }}</CardDescription>
         <CardDescription>Creator: {{ game.creator.login }}</CardDescription>
         <CardDescription>Players: 
-          <div v-for="player of game.players" :key="player.id">
+          <span v-for="player of game.players" :key="player.id">
             {{ player.login }}
-          </div>
+          </span>
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -37,6 +37,7 @@ import CreateGame from './CreateGame.vue';
  *  */ 
 // TODO добавить монаду either
 // функиональная обработка ошибок
+
 const { data: gamesList } = await useFetch (
     `/api/gamesByStatus/${GameStatus.Pending}`,
     {
