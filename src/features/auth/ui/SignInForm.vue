@@ -2,13 +2,13 @@
     <BaseLayout title="Sign In">
         <template v-slot:fields>
             <div class="relative w-full max-w-sm items-center">
-                <Input v-model="login" id="login" type="text" placeholder="login" class="pl-10" />
+                <Input v-model="login" autocomplete="one-time-code" id="login" type="text" placeholder="login" class="pl-10" />
                 <span class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
                 <PersonIcon class="size-6 text-muted-foreground" />
                 </span>
             </div>
             <div class="mt-4 relative w-full max-w-sm items-center">
-                <Input v-model="password" id="password" type="password" placeholder="password" class="pl-10" />
+                <Input v-model="password" autocomplete="one-time-code" id="password" type="password" placeholder="password" class="pl-10" />
                 <span class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
                 <LockClosedIcon class="size-6 text-muted-foreground" />
                 </span>

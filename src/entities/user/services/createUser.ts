@@ -3,7 +3,6 @@ import { passwordService } from './password'
 
 export default defineEventHandler(async (event) => {
     const body = await readBody(event)
-    console.log(body)
 
     const existingUser = await userRepository.getUser({ login: body.login })
     if (existingUser) {
