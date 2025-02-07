@@ -36,11 +36,13 @@ import {useAuthFields} from '../model/useAuthFields'
 const {login, password} = useAuthFields()
 
 const signUp = async () => {
-    const res = await $fetch<boolean>('/api/signUp', {
+    const isRegistered = await $fetch<boolean>('/api/signUp', {
         method: 'POST',
         body: {login: login.value, password: password.value}
     })
-    console.log(res)
+    if (isRegistered) {
+        return navigateTo('/auth/sign-in')
+    }
 }
 
 

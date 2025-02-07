@@ -15,10 +15,7 @@ export default defineEventHandler(async (event) => {
 
     const { passwordHash, passwordSalt } = await passwordService.hashPassword(body.password)
 
-
-    console.log(passwordHash)
-
-    const newUser = await userRepository.createUser({
+    await userRepository.createUser({
         login: body.login,
         passwordHash: passwordHash,
         passwordSalt: passwordSalt
