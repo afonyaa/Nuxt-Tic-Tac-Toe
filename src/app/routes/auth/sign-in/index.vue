@@ -3,8 +3,6 @@ import SignInForm from '~/features/auth/ui/SignInForm.vue';
 definePageMeta({
   layout: 'auth'
 })
-
-// TODO disable SSR
 </script>
 
 <template>

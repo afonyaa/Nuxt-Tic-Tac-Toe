@@ -26,8 +26,10 @@ export default defineNuxtConfig({
     componentDir: '~/shared/ui'
   },
   // TODO - это очень неудобно
+  // TODO как минимум нужно вынести это куда нибудь или генерировать на запуске
   serverHandlers: [
     { route: '/api/createGame', handler: '~/entities/game/services/createGame.ts' },
     { route: '/api/gamesByStatus/:status', handler: '~/entities/game/services/getGamesByStatus.ts' },
+    { route: '/api/signUp', handler: '~/entities/user/services/createUser.ts' },
   ]
 })

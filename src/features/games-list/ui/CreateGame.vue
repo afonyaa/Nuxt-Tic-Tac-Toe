@@ -14,7 +14,7 @@ const error = ref('')
 
 async function handleCreateGameClick() {
   error.value = ''
-  const res = await $fetch<{error: string| Game}>('/api/createGame')
+  const res = await $fetch<{error: string | Game}>('/api/createGame')
   if (res.error) {
     error.value = res.error as string
   }

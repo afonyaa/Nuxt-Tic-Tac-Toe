@@ -5,6 +5,7 @@ async function main() {
     data: {
       id: '1',
       passwordHash: '1234',
+      passwordSalt: '1234',
       login: 'afa1',
     }
   })
@@ -12,6 +13,7 @@ async function main() {
     data: {
       id: '2',
       passwordHash: '123',
+      passwordSalt: '123',
       login: 'afa2',
       games: {
         create: {
@@ -29,6 +31,7 @@ async function main() {
     data: {
       id: '3',
       passwordHash: '12345',
+      passwordSalt: '12345',
       login: 'afa3',
       games: {
         create: {

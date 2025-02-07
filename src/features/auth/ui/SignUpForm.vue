@@ -15,7 +15,7 @@
             </div>
         </template>
         <template v-slot:actions>
-            <BaseButton>
+            <BaseButton @click="signUp">
                 Sign up
             </BaseButton>
             <NuxtLink to="sign-in">Or go to Sign in</NuxtLink>
@@ -34,6 +34,14 @@ import { LockClosedIcon } from '@radix-icons/vue'
 import {useAuthFields} from '../model/useAuthFields'
 
 const {login, password} = useAuthFields()
+
+const signUp = async () => {
+    const res = await $fetch<boolean>('/api/signUp', {
+        method: 'POST',
+        body: {login: login.value, password: password.value}
+    })
+    console.log(res)
+}
 
 
 

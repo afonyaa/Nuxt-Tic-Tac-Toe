@@ -13,12 +13,14 @@ const gamesList = async (status: GameStatus): Promise<Game[]> => {
             winner: {
                 select: {
                     login: true,
+                    rating: true,
                     id: true
                 }
             },
             creator: {
                 select: {
                     login: true,
+                    rating: true,
                     id: true
                 }
             }
@@ -65,13 +67,15 @@ const createGame = async (playerId: string): Promise<Game | { error: string }> =
             winner: {
                 select: {
                     login: true,
+                    rating: true,
                     id: true
                 }
             },
             creator: {
                 select: {
                     login: true,
-                    id: true
+                    id: true,
+                    rating: true,
                 }
             }
         }
