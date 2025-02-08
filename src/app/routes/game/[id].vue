@@ -1,5 +1,8 @@
+<script setup lang="ts">
+import GameField from '~/features/game/ui/GameField.vue';
+
+</script>
+
 <template>
-    <div class="text-slate-700">
-        This is page of game {{  $route.params.id }}
-    </div>
+    <GameField />
 </template>

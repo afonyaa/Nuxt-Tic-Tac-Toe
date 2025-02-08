@@ -13,3 +13,8 @@ export type SessionEntity = {
     login: string;
 }
 
+
+//TODO добить
+export const userToSession = () => {
+
+}
