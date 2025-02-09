@@ -1,4 +1,5 @@
 import { type User as UserRaw } from "@prisma/client"
+import type { SessionData } from "./services/session";
 
 export type User = {
     id: string;
@@ -11,10 +12,4 @@ export type User = {
 export type SessionEntity = {
     id: string;
     login: string;
-}
-
-
-//TODO добить
-export const userToSession = () => {
-
 }
