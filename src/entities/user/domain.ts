@@ -13,3 +13,5 @@ export type SessionEntity = {
     id: string;
     login: string;
 }
+
+export const ACCESSS_TOKEN_NAME = 'Access-Token'

@@ -12,7 +12,7 @@ export default defineNuxtConfig({
   dir: {
     pages: 'app/routes',
     layouts: 'app/layouts',
-    middleware: 'app/middleware'
+    middleware: 'app/middleware',
   },
   components: [
     {
@@ -32,5 +32,5 @@ export default defineNuxtConfig({
     { route: '/api/gamesByStatus/:status', handler: '~/entities/game/services/getGamesByStatus.ts' },
     { route: '/api/signUp', handler: '~/entities/user/services/createUser.ts' },
     { route: '/api/signIn', handler: '~/entities/user/services/userSignIn.ts' },
-  ]
+  ],
 })

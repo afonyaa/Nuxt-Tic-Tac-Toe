@@ -1,4 +1,6 @@
 import jwt from 'jsonwebtoken'
+import { H3Event } from "h3";
+import { ACCESSS_TOKEN_NAME, type SessionEntity } from "../domain";
 // Сессия - закодированная информация о пользователе
 // находящаяся в куках, на основании которой 
 // мы можем безопасно идентифицировать и авторизовать пользователя
@@ -18,9 +20,6 @@ export type SessionData = {
 }
 
 const encryptSession = (sessionData: SessionData) => {
-    // TODO рассмотреть, что будет, если мы создаем session, затем перезапускаем приложение
-    // как отработает jwt verify
-    // к вопросу о том где хранить
     const token = jwt.sign(sessionData, secretKey, { expiresIn: EXPIRES_AT })
     return token
 }
@@ -33,19 +32,41 @@ const decryptSession = (token: string) => {
     }
 }
 
-const addSession = (sessionData: SessionData) => {
-    // todo
+const addSession = (sessionData: SessionData, event: H3Event) => {
+    const token = encryptSession(sessionData)
+    // TODO вынести в домен 8 часов
+    setCookie(event, ACCESSS_TOKEN_NAME, token, { maxAge: 60 * 60 * 24 * 8, httpOnly: true })
 }
 
 const deleteSession = () => {
     // todo
 }
 
-const verifySession = () => {
-    // middleWare
+const verifySession = (event: H3Event) => {
+    const accessToken = getCookie(event, ACCESSS_TOKEN_NAME)
+
+    if (accessToken) {
+        const sessionInfo = decryptSession(accessToken) as SessionEntity
+        // catch error nuxt handling errors
+        // @ts-ignore
+        const date = new Date(sessionInfo.exp * 1000); // Convert to milliseconds
+        console.log(date.toISOString());
+        if (sessionInfo?.login) {
+            event.context.auth = {
+                login: sessionInfo?.login,
+                id: sessionInfo?.id
+            }
+            return;
+        }
+    }
+    throw createError({
+        statusCode: 403,
+        statusMessage: 'Unauthorized'
+    })
 }
 
 export const sessionService = {
-    encryptSession,
-    decryptSession
+    addSession,
+    deleteSession,
+    verifySession
 }

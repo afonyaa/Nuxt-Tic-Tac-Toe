@@ -3,8 +3,6 @@ import userRepository from '../repository/'
 import { passwordService } from './password'
 import { sessionService } from './session'
 
-
-//todo nuxt auth middleware for session
 export default defineEventHandler(async (event) => {
     const body = await readBody(event)
     //todo zod
@@ -20,11 +18,7 @@ export default defineEventHandler(async (event) => {
         return { error: 'passwords do not match' }
     }
 
-    const token = sessionService.encryptSession({ login: body.login, id: user.id })
+    const token = sessionService.addSession({ login: body.login, id: user.id }, event)
 
-    await new Promise((res) => { setTimeout(res, 5000) })
-
-    const verifyToken = sessionService.decryptSession(token)
-
-    return { token, verifyToken }
+    return { token }
 })
