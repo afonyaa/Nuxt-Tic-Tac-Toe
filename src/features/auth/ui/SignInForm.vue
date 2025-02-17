@@ -31,12 +31,13 @@
 import BaseLayout from './BaseLayout.vue'
 import { PersonIcon } from '@radix-icons/vue'
 import { LockClosedIcon } from '@radix-icons/vue'
-import {useAuthFields} from '../model/useAuthFields'
+import { useAuthFields } from '../model/useAuthFields'
+const { $api } = useNuxtApp()
 
 const {login, password} = useAuthFields()
 
 const handleSignInClick = async () => {
-    const res = await $fetch<boolean>('/api/signIn', {
+    const res = await $api<boolean>('/api/signIn', {
         method: 'POST',
         body: {login: login.value, password: password.value}
     })

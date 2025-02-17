@@ -24,7 +24,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { GameStatus } from '~/entities/game/domain';
+import { GameStatus, type Game } from '~/entities/game/domain';
 import CreateGame from './CreateGame.vue';
 
 /**
@@ -38,12 +38,13 @@ import CreateGame from './CreateGame.vue';
 // TODO добавить монаду either
 // функиональная обработка ошибок
 
-const { data: gamesList } = await useFetch (
+// TODO не работает type инференс, приходится объявлять тип самому
+const { data: gamesList } = await useApi<Game[]>(
     `/api/gamesByStatus/${GameStatus.Pending}`,
     {
       method: 'GET',
-      key: 'gamesList'
-    }  
+      key: 'gamesList',
+    }
 )
 
 const goToGame = (gameId: string) => {

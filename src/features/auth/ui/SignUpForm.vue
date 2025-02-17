@@ -34,9 +34,10 @@ import { LockClosedIcon } from '@radix-icons/vue'
 import {useAuthFields} from '../model/useAuthFields'
 
 const {login, password} = useAuthFields()
+const { $api } = useNuxtApp()
 
 const signUp = async () => {
-    const isRegistered = await $fetch<boolean>('/api/signUp', {
+    const isRegistered = await $api<boolean>('/api/signUp', {
         method: 'POST',
         body: {login: login.value, password: password.value}
     })

@@ -44,7 +44,6 @@ const deleteSession = () => {
 
 const verifySession = (event: H3Event) => {
     const accessToken = getCookie(event, ACCESSS_TOKEN_NAME)
-
     if (accessToken) {
         const sessionInfo = decryptSession(accessToken) as SessionEntity
         // @ts-ignore

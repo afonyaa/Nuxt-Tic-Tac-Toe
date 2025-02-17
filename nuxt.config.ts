@@ -12,8 +12,16 @@ export default defineNuxtConfig({
   dir: {
     pages: 'app/routes',
     layouts: 'app/layouts',
+    plugins: 'app/plugins',
     middleware: 'app/middleware',
   },
+  imports: {
+    dirs: [
+      'kernel/composables/**'
+    ]
+  },
+  // TODO почитать про auto imports, понять чем отличаются components от imports
+  // по сути components тоже автоимпортирует
   components: [
     {
       path: '~/shared/ui',
