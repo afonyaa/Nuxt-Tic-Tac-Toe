@@ -28,7 +28,7 @@ const decryptSession = (token: string) => {
     try {
         return jwt.verify(token, secretKey)
     } catch (e) {
-        return e
+        return { error: e }
     }
 }
 
@@ -47,16 +47,15 @@ const verifySession = (event: H3Event) => {
 
     if (accessToken) {
         const sessionInfo = decryptSession(accessToken) as SessionEntity
-        // catch error nuxt handling errors
         // @ts-ignore
-        const date = new Date(sessionInfo.exp * 1000); // Convert to milliseconds
-        console.log(date.toISOString());
-        if (sessionInfo?.login) {
-            event.context.auth = {
-                login: sessionInfo?.login,
-                id: sessionInfo?.id
+        if (!sessionInfo.error) {
+            if (sessionInfo?.login) {
+                event.context.auth = {
+                    login: sessionInfo?.login,
+                    id: sessionInfo?.id
+                }
+                return;
             }
-            return;
         }
     }
     throw createError({
