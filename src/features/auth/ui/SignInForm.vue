@@ -42,7 +42,9 @@ const handleSignInClick = async () => {
         body: {login: login.value, password: password.value}
     })
 
-    console.log(res)
+    if (res) {
+        return navigateTo('/')
+    }
 }
 
 </script>

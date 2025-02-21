@@ -11,7 +11,6 @@ export default defineNuxtPlugin(nuxtApp => {
             // Object.assign(options.headers, headers)
         },
         async onResponse({ response }) {
-            console.log(response.status)
             if (response.status === 403) {
                 // TODO что такое runWithContext
                 await nuxtApp.runWithContext(() => navigateTo('/auth'))
