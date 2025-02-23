@@ -39,6 +39,7 @@ export default defineNuxtConfig({
     { route: '/api/createGame', handler: '~/entities/game/services/createGame.ts' },
     { route: '/api/gamesByStatus/:status', handler: '~/entities/game/services/getGamesByStatus.ts' },
     { route: '/api/signUp', handler: '~/entities/user/services/createUser.ts' },
+    { route: '/api/logout', handler: '~/entities/user/services/logout.ts' },
     { route: '/api/signIn', handler: '~/entities/user/services/userSignIn.ts' },
   ],
 })

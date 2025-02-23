@@ -38,8 +38,8 @@ const addSession = (sessionData: SessionData, event: H3Event) => {
     setCookie(event, ACCESSS_TOKEN_NAME, token, { maxAge: 60 * 60 * 24 * 8, httpOnly: true })
 }
 
-const deleteSession = () => {
-    // todo
+const deleteSession = (event: H3Event) => {
+    setCookie(event, ACCESSS_TOKEN_NAME, '', { maxAge: 60 * 60 * 24 * 8, httpOnly: true })
 }
 
 const verifySession = (event: H3Event) => {

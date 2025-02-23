@@ -32,12 +32,12 @@ import BaseLayout from './BaseLayout.vue'
 import { PersonIcon } from '@radix-icons/vue'
 import { LockClosedIcon } from '@radix-icons/vue'
 import { useAuthFields } from '../model/useAuthFields'
-const { $api } = useNuxtApp()
 
 const {login, password} = useAuthFields()
 
 const handleSignInClick = async () => {
-    const res = await $api<boolean>('/api/signIn', {
+    const api = useApi()
+    const res = await api('/api/signIn', {
         method: 'POST',
         body: {login: login.value, password: password.value}
     })
@@ -46,5 +46,6 @@ const handleSignInClick = async () => {
         return navigateTo('/')
     }
 }
+
 
 </script>
