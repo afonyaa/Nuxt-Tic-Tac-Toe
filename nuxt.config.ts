@@ -41,5 +41,6 @@ export default defineNuxtConfig({
     { route: '/api/signUp', handler: '~/entities/user/services/createUser.ts' },
     { route: '/api/logout', handler: '~/entities/user/services/logout.ts' },
     { route: '/api/signIn', handler: '~/entities/user/services/userSignIn.ts' },
+    { route: '/api/user', handler: '~/entities/user/services/getCurrentUser.ts' },
   ],
 })

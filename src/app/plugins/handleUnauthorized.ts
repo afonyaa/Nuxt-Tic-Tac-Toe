@@ -2,13 +2,10 @@ export default defineNuxtPlugin(nuxtApp => {
     const api = $fetch.create({
         async onRequest({ options }) {
             const headers = useRequestHeaders();
-            // TODO можно ли как то обойтись без этого    
             options.headers = {
                 ...headers,
                 ...options.headers,
             };
-            // TODO выяснить, почему не работает это:
-            // Object.assign(options.headers, headers)
         },
         async onResponse({ response }) {
             if (response.status === 403) {
