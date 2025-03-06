@@ -1,7 +1,4 @@
 <template>
-  <div class="p-4 flex justify-end">
-    <LogoutButton />
-  </div>
   <h1 class="m-2">
     Games:
   </h1>
@@ -29,7 +26,6 @@
 <script setup lang="ts">
 import { GameStatus, type Game } from '~/entities/game/domain';
 import CreateGame from './CreateGame.vue';
-import LogoutButton from './LogoutButton.vue';
 
 /**
  * TODO
