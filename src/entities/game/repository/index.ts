@@ -83,7 +83,52 @@ const createGame = async (playerId: string): Promise<Game | { error: string }> =
     return fromRawToGame(game)
 }
 
+const getGameById = (gameId: string) => {
+    return prisma.game.findFirst({
+        where: {
+            id: {
+                equals: gameId,
+            }
+        },
+        include: {
+            players: true,
+            winner: {
+                select: {
+                    login: true,
+                    rating: true,
+                    id: true
+                }
+            },
+            creator: {
+                select: {
+                    login: true,
+                    rating: true,
+                    id: true
+                }
+            }
+        }
+    })
+}
+
+const joinGame = (gameId: string, playerId: string) => {
+    return prisma.game.update({
+        where: {
+            id: gameId
+        },
+        data: {
+            players: {
+                connect: {
+                    id: playerId
+                }
+            },
+            status: GameStatus.InProgress
+        }
+    })
+}
+
 export default {
     gamesList,
-    createGame
+    createGame,
+    getGameById,
+    joinGame
 }

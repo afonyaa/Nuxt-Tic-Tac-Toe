@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import GameField from '~/features/game/ui/GameField.vue';
-
+import Game from '~/features/game/ui/Game.vue'
 </script>
 
 <template>
-    <GameField />
+    <Game />
 </template>

@@ -42,5 +42,7 @@ export default defineNuxtConfig({
     { route: '/api/logout', handler: '~/entities/user/services/logout.ts' },
     { route: '/api/signIn', handler: '~/entities/user/services/userSignIn.ts' },
     { route: '/api/user', handler: '~/entities/user/services/getCurrentUser.ts' },
+    { route: '/api/game/:id', handler: '~/entities/game/services/getGame.ts' },
+    { route: '/api/game/join/:id', handler: '~/entities/game/services/joinGame.ts' },
   ],
 })

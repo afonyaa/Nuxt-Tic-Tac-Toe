@@ -45,11 +45,17 @@ const { data: gamesList } = await useFetchApi<Game[]>(
       key: 'gamesList',
     }
 )
+const {$api} = useNuxtApp()
 
-const goToGame = (gameId: string) => {
-  navigateTo({
-    path: `/game/${gameId}`,
-  })
+
+const goToGame = async (gameId: string) => {
+  const res = await $api<{error: string | Game}>(`/api/game/join/${gameId}`)
+  
+  if (res) {
+    navigateTo({
+      path: `/game/${gameId}`,
+    })
+  }
 }
 
 </script>

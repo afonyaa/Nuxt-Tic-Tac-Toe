@@ -31,7 +31,7 @@ export type GamePending = BaseGameFields & {
     players: Player[]
 }
 
-export type Player = Omit<UserRaw, 'passwordHash'>
+export type Player = Omit<UserRaw, 'passwordHash' | 'passwordSalt'>
 
 export enum GameStatus {
     Finished = 'Finished',
@@ -59,8 +59,8 @@ export const fromRawToGame = (
     rawGame: GameRaw &
     {
         players: UserRaw[],
-        winner: Omit<UserRaw, 'passwordHash'> | null
-        creator: Omit<UserRaw, 'passwordHash'>
+        winner: Omit<UserRaw, 'passwordHash' | 'passwordSalt'> | null
+        creator: Omit<UserRaw, 'passwordHash' | 'passwordSalt'>
     }): Game => {
     const status = rawGame.status
 
@@ -107,4 +107,4 @@ export const fromRawToGame = (
 
 let zFieldCell = z.enum([GameSign.Cross, GameSign.Circle]).nullable()
 const zGameSchema = z.array(z.array(zFieldCell).length(3)).length(3)
-const zPlayerSchema = z.object({ id: z.string(), login: z.string() })
+const zPlayerSchema = z.object({ id: z.string(), login: z.string(), rating: z.number() })
