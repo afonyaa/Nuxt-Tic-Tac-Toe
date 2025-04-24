@@ -91,7 +91,12 @@ const getGameById = (gameId: string) => {
             }
         },
         include: {
-            players: true,
+            players: {
+                select: {
+                    login: true,
+                    id: true
+                }
+            },
             winner: {
                 select: {
                     login: true,

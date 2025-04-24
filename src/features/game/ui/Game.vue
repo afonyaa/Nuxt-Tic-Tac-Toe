@@ -6,30 +6,13 @@ const route = useRoute()
 
 const gameId = route.params.id
 
-const { data: gameRaw } = await useFetchApi<Game>(
+const { data: game } = await useFetchApi<Game>(
     `/api/game/${gameId}`,
     {
       method: 'GET',
       key: 'game',
     }
 )
-
-onMounted(() => {
-    console.log(gameRaw.value)
-})
-
-const game: Game = {
-    status: GameStatus.InProgress,
-    id: '',
-    field: [[null, GameSign.Circle, null], [null, null, null], [null, null, null]],
-    createdAt: new Date(),
-    players: [],
-    creator: {
-        id: '1',
-        login: '',
-        rating: 1,
-    },
-}
 
 const isCurrentTurn = false
 const isFieldDisabled = computed(() => false)
@@ -38,26 +21,22 @@ const isFieldDisabled = computed(() => false)
 // поле
 // экшнс
 
-
-// вывести статус
-// вывести кто X а кто О - (рандомно выбирать)
-
 </script>
 
 <template>
     <div class="pl-8">
         <div>
-            Game status: {{ game.status }}
+            Game status: {{ game?.status }}
         </div>
         <div>
             Players: 
             <div>
-                0 - {{ game.players[0] }}
+                0 - {{ game?.players[0]?.login }}
             </div>
             <div>
-                x - {{ game.players[1] }}
+                x - {{ game?.players[1]?.login }}
             </div>
         </div>
     </div>
-    <GameField :field="game.field" :disabled="isFieldDisabled"/>
+    <GameField v-if="game" :field="game.field" :disabled="isFieldDisabled"/>
 </template>

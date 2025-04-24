@@ -13,9 +13,14 @@ export default defineEventHandler(async (event) => {
     // todo validation
 
     const game = await gameRepository.getGameById(gameId!)
-    if (game?.players && game.players.length < 2) {
-        await gameRepository.joinGame(gameId!, userId)
-        return true
+    if (game) {
+        if (game.creatorId === userId) {
+            return true
+        }
+        if (game?.players && game.players.length < 2) {
+            await gameRepository.joinGame(gameId!, userId)
+            return true
+        }
     }
     return false
 

@@ -1,6 +1,6 @@
 <template>
   <h1 class="m-2">
-    Games:
+    Pending games:
   </h1>
   <div class="flex gap-x-8 m-2">
     <Card v-for="game of gamesList" :key="game.id" class="w-[350px]">
@@ -45,6 +45,7 @@ const { data: gamesList } = await useFetchApi<Game[]>(
       key: 'gamesList',
     }
 )
+
 const {$api} = useNuxtApp()
 
 
