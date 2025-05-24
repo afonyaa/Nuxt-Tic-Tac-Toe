@@ -8,8 +8,6 @@ export default defineEventHandler(async (event) => {
 
     const gameId = getRouterParam(event, 'id')
 
-    // todo validation
-
     const game = await gameRepository.getGameById(gameId!)
 
     return game

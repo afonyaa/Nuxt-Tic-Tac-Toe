@@ -1,19 +1,19 @@
-export default defineEventHandler((event) => {
-    let counter = 0
+import { sessionService } from "~/entities/user/services/session"
+import gameRepository from '../repository'
 
-    console.log('CREATE STREAM')
+export default defineEventHandler(async (event) => {
     const stream = createEventStream(event)
 
-    const interval = setInterval(() => {
-        console.log('PUSH', counter)
-        counter += 1
-        stream.push(counter.toString())
-    }, 5000)
-
     stream.onClosed(async () => {
-        clearInterval(interval)
         await stream.close()
     })
+
+    sessionService.verifySession(event)
+
+    const gameId = getRouterParam(event, 'id')
+    const game = await gameRepository.getGameById(gameId!)
+
+    stream.push(JSON.stringify(game))
 
     return stream.send()
 
