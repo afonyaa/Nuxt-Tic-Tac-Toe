@@ -1,5 +1,7 @@
+import { fromRawToGame, type Game } from '../domain'
 import gameRepository from '../repository'
 import { sessionService } from '~/entities/user/services/session'
+import { subscribeToUpdateGame } from './gameEventsEmitter'
 
 export default defineEventHandler(async (event) => {
     const gameId = getRouterParam(event, 'id')
@@ -13,7 +15,6 @@ export default defineEventHandler(async (event) => {
             })
         }
         if (game.players.length === 2 && !game.players.find(player => player.id === event.context.auth.id)) {
-            console.log('do not have an access')
             throw createError({
                 statusCode: 404,
                 statusMessage: 'You do not have access to this game'
@@ -28,8 +29,13 @@ export default defineEventHandler(async (event) => {
         await stream.close()
     })
 
+    // TODO вызов ансаб
+    const unsub = subscribeToUpdateGame(gameId!, (game: Game) => {
+        stream.push(JSON.stringify(game))
+    })
+
     sessionService.verifySession(event)
-    stream.push(JSON.stringify(game))
+    stream.push(JSON.stringify(fromRawToGame(game!)))
 
     return stream.send()
 

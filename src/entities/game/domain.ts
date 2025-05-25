@@ -58,7 +58,7 @@ export const gameStatusToRaw: Record<GameStatus, GameStatusRaw> = {
 export const fromRawToGame = (
     rawGame: GameRaw &
     {
-        players: UserRaw[],
+        players: Omit<UserRaw, 'passwordHash' | 'passwordSalt'>[],
         winner: Omit<UserRaw, 'passwordHash' | 'passwordSalt'> | null
         creator: Omit<UserRaw, 'passwordHash' | 'passwordSalt'>
     }): Game => {

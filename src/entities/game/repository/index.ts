@@ -94,7 +94,8 @@ const getGameById = (gameId: string) => {
             players: {
                 select: {
                     login: true,
-                    id: true
+                    id: true,
+                    rating: true
                 }
             },
             winner: {
@@ -115,8 +116,8 @@ const getGameById = (gameId: string) => {
     })
 }
 
-const joinGame = (gameId: string, playerId: string) => {
-    return prisma.game.update({
+const joinGame = async (gameId: string, playerId: string) => {
+    await prisma.game.update({
         where: {
             id: gameId
         },
@@ -129,6 +130,7 @@ const joinGame = (gameId: string, playerId: string) => {
             status: GameStatus.InProgress
         }
     })
+    return await getGameById(gameId)
 }
 
 export default {

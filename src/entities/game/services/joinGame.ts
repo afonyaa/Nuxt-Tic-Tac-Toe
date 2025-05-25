@@ -1,6 +1,8 @@
 import gameRepository from '../repository'
 
 import { sessionService } from '~/entities/user/services/session'
+import { updateGame } from './gameEventsEmitter'
+import { fromRawToGame } from "../domain"
 
 export default defineEventHandler(async (event) => {
 
@@ -18,7 +20,8 @@ export default defineEventHandler(async (event) => {
             return true
         }
         if (game?.players && game.players.length < 2) {
-            await gameRepository.joinGame(gameId!, userId)
+            const gameUpdated = await gameRepository.joinGame(gameId!, userId)
+            updateGame(fromRawToGame(gameUpdated!))
             return true
         }
     }
