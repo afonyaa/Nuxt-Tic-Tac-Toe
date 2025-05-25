@@ -9,7 +9,7 @@ const gameId = route.params.id
 
 const {data: game, notFound} = useEventSource<Game>(`/api/gameStream/${gameId}`)
 watchEffect(() => {
-    console.log(game.value)
+    console.log(game.value,)
 })
  
 const isCurrentTurn = false
