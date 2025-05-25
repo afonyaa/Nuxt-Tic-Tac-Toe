@@ -7,7 +7,7 @@ const route = useRoute()
 
 const gameId = route.params.id
 
-const game = useEventSource<number>(`/api/gameStream/${gameId}`)
+const {data: game, notFound} = useEventSource<Game>(`/api/gameStream/${gameId}`)
 watchEffect(() => {
     console.log(game.value)
 })
@@ -22,19 +22,26 @@ const isFieldDisabled = computed(() => false)
 </script>
 
 <template>
-    <div class="pl-8">
-        <div>
-            Game status: {{ game?.status }}
+    <div v-if="game">
+        <div class="pl-8">
+            <div>
+                Game status: {{ game?.status }}
+            </div>
+            <div>
+                Players: 
+                <div>
+                    0 - {{ game?.players[0]?.login }}
+                </div>
+                <div>
+                    x - {{ game?.players[1]?.login }}
+                </div>
+            </div>
         </div>
-        <div>
-            Players: 
-            <div>
-                0 - {{ game?.players[0]?.login }}
-            </div>
-            <div>
-                x - {{ game?.players[1]?.login }}
-            </div>
+        <GameField v-if="game" :field="game.field" :disabled="isFieldDisabled"/>
+    </div>
+    <div v-else>
+        <div v-if="notFound">
+            Game not found
         </div>
     </div>
-    <GameField v-if="game" :field="game.field" :disabled="isFieldDisabled"/>
 </template>
