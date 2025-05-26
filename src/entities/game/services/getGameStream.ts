@@ -25,13 +25,13 @@ export default defineEventHandler(async (event) => {
 
     const stream = createEventStream(event)
 
-    stream.onClosed(async () => {
-        await stream.close()
-    })
-
-    // TODO вызов ансаб
     const unsub = subscribeToUpdateGame(gameId!, (game: Game) => {
         stream.push(JSON.stringify(game))
+    })
+
+    stream.onClosed(async () => {
+        await stream.close()
+        unsub()
     })
 
     sessionService.verifySession(event)
