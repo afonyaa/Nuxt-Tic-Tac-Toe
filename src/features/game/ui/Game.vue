@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { type Game } from '~/entities/game/domain';
+import { GameSign, type Game } from '~/entities/game/domain';
 import GameField from './GameField.vue';
 import { useEventSource } from '../composables/useEventSource';
 
 const route = useRoute()
+const userLogin = useUser()
 
 const gameId = route.params.id
 
@@ -12,8 +13,21 @@ watchEffect(() => {
     console.log(game.value,)
 })
  
-const isCurrentTurn = false
 const isFieldDisabled = computed(() => false)
+
+const sign = computed(() => 
+    game.value?.creator.login === userLogin.value ? GameSign.Cross : GameSign.Circle
+)
+
+const isUserTurn = computed(() => {
+    const cells = game.value?.field.flat()
+    const filledCellsCount = (cells?.filter(cell => cell) ?? []).length
+
+    return filledCellsCount % 2 === 0 && sign.value === GameSign.Cross
+})
+
+
+// во время хода сделать проверку на выигрыш
 
 // статус
 // поле
@@ -25,7 +39,8 @@ const isFieldDisabled = computed(() => false)
     <div v-if="game">
         <div class="pl-8">
             <div>
-                Game status: {{ game?.status }}
+                <div>Game status: <b>{{ game?.status }}</b></div>
+                <div>You are <b>{{ sign }}</b></div>
             </div>
             <div>
                 Players: 
@@ -34,6 +49,14 @@ const isFieldDisabled = computed(() => false)
                 </div>
                 <div>
                     x - {{ game?.players[1]?.login }}
+                </div>
+                <div>
+                    <div v-if="isUserTurn">
+                        Your turn
+                    </div>
+                    <div v-else>
+                        Wait...
+                    </div>
                 </div>
             </div>
         </div>
