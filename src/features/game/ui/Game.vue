@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { GameSign, type Game } from '~/entities/game/domain';
+import { GameSign, GameStatus, type Game } from '~/entities/game/domain';
 import GameField from './GameField.vue';
 import { useEventSource } from '../composables/useEventSource';
 
@@ -8,12 +8,14 @@ const userLogin = useUser()
 
 const gameId = route.params.id
 
-const {data: game, notFound} = useEventSource<Game>(`/api/gameStream/${gameId}`)
+const {
+    data: game,
+    notFound
+} = useEventSource<Game>(`/api/gameStream/${gameId}`)
+
 watchEffect(() => {
     console.log(game.value,)
-})
- 
-const isFieldDisabled = computed(() => false)
+}) 
 
 const sign = computed(() => 
     game.value?.creator.login === userLogin.value ? GameSign.Cross : GameSign.Circle
@@ -26,12 +28,14 @@ const isUserTurn = computed(() => {
     return filledCellsCount % 2 === 0 && sign.value === GameSign.Cross
 })
 
+const isFieldDisabled = computed(() => 
+    !isUserTurn.value || game?.value?.status !== GameStatus.InProgress
+)
 
-// во время хода сделать проверку на выигрыш
+const handleTurn = (x:number, y:number) => {
+    console.log(x,y)
+}
 
-// статус
-// поле
-// экшнс
 
 </script>
 
@@ -41,6 +45,7 @@ const isUserTurn = computed(() => {
             <div>
                 <div>Game status: <b>{{ game?.status }}</b></div>
                 <div>You are <b>{{ sign }}</b></div>
+                {{ game?.status !== GameStatus.InProgress }}
             </div>
             <div>
                 Players: 
@@ -60,7 +65,12 @@ const isUserTurn = computed(() => {
                 </div>
             </div>
         </div>
-        <GameField v-if="game" :field="game.field" :disabled="isFieldDisabled"/>
+        <GameField 
+            v-if="game"
+            :field="game.field"
+            :disabled="isFieldDisabled" 
+            @click="handleTurn"
+        />
     </div>
     <div v-else>
         <div v-if="notFound">
