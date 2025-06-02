@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
 
     const existingUser = await userRepository.getUser({ login: body.login })
     if (existingUser) {
-        console.log('already exists', existingUser)
+        // console.log('already exists', existingUser)
         // TODO error handler
         return false
     }

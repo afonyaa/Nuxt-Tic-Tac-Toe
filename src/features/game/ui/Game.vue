@@ -4,6 +4,7 @@ import GameField from './GameField.vue';
 import { useEventSource } from '../composables/useEventSource';
 
 const route = useRoute()
+const api = useApi()
 const userLogin = useUser()
 
 const gameId = route.params.id
@@ -13,8 +14,13 @@ const {
     notFound
 } = useEventSource<Game>(`/api/gameStream/${gameId}`)
 
+const isWin = computed(() => {
+    return game.value?.status === GameStatus.Finished ?
+        game.value.winner.login  === userLogin.value ? true : false : null
+})
+
 watchEffect(() => {
-    console.log(game.value,)
+    console.log(isWin.value)
 }) 
 
 const sign = computed(() => 
@@ -24,16 +30,26 @@ const sign = computed(() =>
 const isUserTurn = computed(() => {
     const cells = game.value?.field.flat()
     const filledCellsCount = (cells?.filter(cell => cell) ?? []).length
-
-    return filledCellsCount % 2 === 0 && sign.value === GameSign.Cross
+    return (filledCellsCount % 2 === 0 && sign.value === GameSign.Cross) 
+        || (filledCellsCount % 2 !== 0 && sign.value === GameSign.Circle)
 })
 
 const isFieldDisabled = computed(() => 
     !isUserTurn.value || game?.value?.status !== GameStatus.InProgress
 )
 
+// блокировать нажатие на то что уже сходили
 const handleTurn = (x:number, y:number) => {
-    console.log(x,y)
+    if (game.value?.field) {
+        const fieldUpdated = game.value.field.map(row => [...row]);
+        fieldUpdated[x][y] = sign.value
+        api(`/api/game/updateField/${gameId}`, {
+            method: 'POST',
+            body: {
+                field: fieldUpdated
+            }
+        })
+    }
 }
 
 
@@ -59,9 +75,13 @@ const handleTurn = (x:number, y:number) => {
                     <div v-if="isUserTurn">
                         Your turn
                     </div>
-                    <div v-else>
+                    <div v-else-if="game.status !== GameStatus.Finished">
                         Wait...
                     </div>
+                </div>
+                <div>
+                    <div v-if="isWin" class="text-green-500 text-xl">You win</div>
+                    <div v-else-if="isWin === false" class="text-red-500 text-xl">You lose</div>
                 </div>
             </div>
         </div>

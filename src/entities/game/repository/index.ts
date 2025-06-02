@@ -1,5 +1,5 @@
 import prisma from "~/shared/lib/db"
-import { fromRawToGame, GameStatus, gameStatusToRaw, type Game } from "../domain"
+import { fromRawToGame, GameStatus, gameStatusToRaw, type Game, type GameField } from "../domain"
 
 const gamesList = async (status: GameStatus): Promise<Game[]> => {
     const gamesRaw = await prisma.game.findMany({
@@ -133,9 +133,57 @@ const joinGame = async (gameId: string, playerId: string) => {
     return await getGameById(gameId)
 }
 
+const updateGameField = async (gameId: string, field: GameField) => {
+    await prisma.game.update({
+        where: {
+            id: gameId
+        },
+        data: {
+            field
+        }
+    })
+    return getGameById(gameId)
+}
+
+const finishGame = async (
+    gameId: string,
+    status: GameStatus.Finished | GameStatus.FinishedDraw,
+    winnerId?: string
+) => {
+
+    if (winnerId) {
+        await prisma.game.update({
+            where: {
+                id: gameId
+            },
+            data: {
+                status,
+                winner: {
+                    connect: {
+                        id: winnerId
+                    }
+                }
+            }
+        })
+    }
+    else {
+        await prisma.game.update({
+            where: {
+                id: gameId
+            },
+            data: {
+                status,
+            }
+        })
+    }
+    return getGameById(gameId)
+}
+
 export default {
     gamesList,
     createGame,
     getGameById,
-    joinGame
+    joinGame,
+    updateGameField,
+    finishGame
 }

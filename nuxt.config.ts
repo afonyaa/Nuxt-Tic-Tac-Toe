@@ -45,5 +45,6 @@ export default defineNuxtConfig({
     { route: '/api/game/:id', handler: '~/entities/game/services/getGame.ts' },
     { route: '/api/gameStream/:id', handler: '~/entities/game/services/getGameStream.ts' },
     { route: '/api/game/join/:id', handler: '~/entities/game/services/joinGame.ts' },
+    { route: '/api/game/updateField/:id', handler: '~/entities/game/services/updateGameField.ts' },
   ],
 })
